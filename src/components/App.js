@@ -5,10 +5,8 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [editingId, setEditingId] = useState(null);
 const [darkMode, setDarkMode] = useState(false);
-git 
-const handleToggleDarkMode = () => {
-    setDarkMode(!darkMode);
-};
+
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
