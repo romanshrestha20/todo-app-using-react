@@ -4,7 +4,6 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [editingId, setEditingId] = useState(null);
-const [darkMode, setDarkMode] = useState(false);
 
 
   const handleInputChange = (e) => {
