@@ -16,7 +16,7 @@ interface TaskListProps {
   editTaskId: number | null;
   editTaskText: string;
   setEditTaskText: (text: string) => void;
-  updateTask: (id: number) => void;
+  updateTask: (id: number, text: string, completed: boolean, token: string) => void; // Update type here
   cancelEditTask: () => void;
 }
 
@@ -32,7 +32,7 @@ const TaskList: React.FC<TaskListProps> = ({
   cancelEditTask,
 }) => {
   return (
-    <ul>
+    <ul className="space-y-4">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}

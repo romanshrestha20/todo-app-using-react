@@ -17,7 +17,7 @@ interface TaskItemProps {
   editTaskId: number | null;
   editTaskText: string;
   setEditTaskText: (text: string) => void;
-  updateTask: (id: number) => void;
+  updateTask: (id: number, text: string, completed: boolean, token: string) => void; // Update type here
   cancelEditTask: () => void;
 }
 
@@ -33,11 +33,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
   cancelEditTask,
 }) => {
   return (
-    <li>
-      <span className={task.completed ? "completed" : ""}>
+    <li className="flex items-center justify-between p-4 border-b border-gray-200">
+      <span className={`flex items-center ${task.completed ? "line-through text-gray-500" : ""}`}>
         <FontAwesomeIcon
           icon={faCheck}
-          className="icon"
+          className="icon cursor-pointer text-green-500 mr-2"
           onClick={() => toggleComplete(task.id, task.completed)}
         />
         {editTaskId === task.id ? (
@@ -45,36 +45,47 @@ const TaskItem: React.FC<TaskItemProps> = ({
             type="text"
             value={editTaskText}
             onChange={(e) => setEditTaskText(e.target.value)}
-            onBlur={() => updateTask(task.id)}
+            onBlur={() => updateTask(task.id, editTaskText, task.completed, "your-token")}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-          updateTask(task.id);
+                updateTask(task.id, editTaskText, task.completed, "your-token");
               }
             }}
             autoFocus
+            className="border border-gray-300 rounded px-2 py-1"
           />
         ) : (
-          <span style={{ marginLeft: "8px" }}>{task.text}</span>
+          <span className="ml-2">{task.text}</span>
         )}
       </span>
       {editTaskId === task.id ? (
-        <div>
-          <button onClick={() => updateTask(task.id)}>Update</button>
-          <button onClick={cancelEditTask} >Cancel</button>
+        <div className="flex items-center">
+          <button
+            onClick={() => updateTask(task.id, editTaskText, task.completed, "your-token")}
+            className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+          >
+            Update
+          </button>
+          <button
+            onClick={cancelEditTask}
+            className="bg-gray-500 text-white px-2 py-1 rounded"
+          >
+            Cancel
+          </button>
         </div>
       ) : (
-        <>
+        <div className="flex items-center">
           <FontAwesomeIcon
             icon={faEdit}
-            className="icon"
+            className="icon cursor-pointer text-blue-500 mr-2"
             onClick={() => startEditTask(task)}
           />
           <FontAwesomeIcon
             icon={faTrash}
-            className="icon"
+            className="icon cursor-pointer text-red-500"
             onClick={() => deleteTask(task.id)}
           />
-        </>
+        </div>
       )}
     </li>
   );
